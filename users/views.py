@@ -1,8 +1,10 @@
 from django.contrib.auth import authenticate, login as django_login
 from django.http import JsonResponse
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.views.decorators.csrf import csrf_exempt
 from .models import UserModel
 import json
+from django.core.serializers import serialize
 
 @csrf_exempt  # Optional: You may want to keep CSRF protection enabled in production
 def login(request):
@@ -23,12 +25,20 @@ def login(request):
 
         # Check the user's password
         if user.check_password(password):
-            # Successful authentication, log the user in
-            django_login(request, user)
-        
-            
+            refresh = RefreshToken.for_user(user)
+            user_data = json.loads(serialize('json', [user]))[0]['fields']
+            if 'password' in user_data:
+                del user_data['password']
+            refresh.payload['user'] = user_data 
+
+            access_token = str(refresh.access_token)        
             # Return success response with user ID
-            return JsonResponse({'message': 'Login successful', 'user_id': user.user_id}, status=200)
+            return JsonResponse({
+                    'message': 'Login successful',
+                    'refresh': str(refresh),
+                    'access': access_token,
+                }, status=200)
+            # return JsonResponse({'message': 'Login successful', 'user_id': user.user_id}, status=200)
         else:
             # Invalid credentials
             print("Failed at this level")
