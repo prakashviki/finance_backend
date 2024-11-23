@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'corsheaders',
     'django.contrib.staticfiles',
-    'agents',
+    'credentials',
     'users',
     'customers',
     'loans',

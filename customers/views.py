@@ -6,7 +6,7 @@ from .models import CustomerModel
 from datetime import datetime
 import json
 from django.http import JsonResponse
-from agents.models import AgentModel 
+from users.models import AgentModel 
 
 
 @csrf_exempt

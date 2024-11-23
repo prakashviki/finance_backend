@@ -1,5 +1,5 @@
 from django.db import models
-from agents.models import AgentModel
+from users.models import AgentModel
 
 class CustomerModel(models.Model):
     customer_id = models.AutoField(primary_key=True)
