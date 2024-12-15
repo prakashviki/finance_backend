@@ -1,33 +1,27 @@
+from django.contrib.auth.hashers import make_password, check_password
 from django.db import models
 
 
-class AgentModel(models.Model):
+class UsersModel(models.Model):
     
-    agent_id = models.AutoField(primary_key=True)
-    finance_name = models.CharField(max_length=100)
-    name = models.CharField(max_length=100)
-    dob = models.DateField()
+    
+    user_id = models.AutoField(primary_key=True)  # Auto-incrementing unique user ID
+    role = models.CharField( max_length=15)
     mobile_number = models.CharField(max_length=15)
-    email = models.EmailField(unique=True)
-    address = models.TextField()
-    agent_type = models.CharField(max_length=20)
+    password = models.CharField(max_length=128)  # Password field (ideally hashed)
+    
     admin_id = models.CharField(max_length=10)
-    created_on = models.DateTimeField()
-    modified_on = models.DateTimeField()
+    
+    email = models.EmailField(unique=True)  # Unique email field
+    finance_name = models.CharField(max_length=100)
+    user_name = models.CharField(max_length=20)
+    created_on = models.DateTimeField()  
 
-    def __str__(self):
-        return (
-            f"Agent ID: {self.agent_id}, "
-            f"Finance Name: {self.finance_name}, "
-            f"Name: {self.name}, "
-            f"DOB: {self.dob}, "
-            f"Mobile Number: {self.mobile_number}, "
-            f"Email: {self.email}, "
-            f"Address: {self.address}, "
-            f"Agent Type: {self.agent_type}, "
-            f"Created On: {self.created_on}, "
-            f"Modified On: {self.modified_on}"
-        )
+    def set_password(self, raw_password):
+        # Hash the password using Django's method
+        self.password = make_password(raw_password)
 
-  
- 
+    def check_password(self, raw_password):
+        # Check if the provided password matches the hashed password
+        return check_password(raw_password, self.password)
+    
