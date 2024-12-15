@@ -1,10 +1,8 @@
 from django.contrib import admin
+from .models import UsersModel
 
-# Register your models here.
-from django.contrib import admin
-from .models import UserModel
+class UsersModelAdmin(admin.ModelAdmin):
+    list_display = ('user_id', 'role', 'mobile_number','admin_id', 'email', 'finance_name', 'user_name','password', 'created_on')
+    search_fields = ('user_name', 'email', 'mobile_number')  # Optional: Allows searching by these fields
 
-@admin.register(UserModel)
-class UserModelAdmin(admin.ModelAdmin):
-    list_display = ('user_id', 'email', 'password','created_on', 'modified_on')  # Specify fields to display
-    search_fields = ('email',)  # Optional: add search functionality
+admin.site.register(UsersModel, UsersModelAdmin)

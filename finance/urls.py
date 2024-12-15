@@ -24,7 +24,6 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     path('admin/', admin.site.urls),
-    path('agents/', include('agents.urls')),
     path('users/', include('users.urls')),
     path('customers/', include('customers.urls')),
     path('loans/', include('loans.urls')),

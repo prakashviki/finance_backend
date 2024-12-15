@@ -1,12 +1,11 @@
 from django.shortcuts import render
-
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import CustomerModel
 from datetime import datetime
 import json
 from django.http import JsonResponse
-from agents.models import AgentModel 
+from users.models import UsersModel 
 
 
 @csrf_exempt
@@ -26,8 +25,8 @@ def add(request):
             pan_number = data.get('pan_number')
             address = data.get('address')
 
-            # Retrieve the AgentModel object based on the agent_id
-            agent = AgentModel.objects.get(agent_id = agent_id)
+            # Retrieve the UsersModel object based on the agent_id
+            agent = UsersModel.objects.get(agent_id = agent_id)
 
             # Create a new customer instance
             customer = CustomerModel.objects.create(
@@ -47,7 +46,7 @@ def add(request):
             # Return a success response
             return JsonResponse({'message': 'Customer added successfully'}, status=201)
 
-        except AgentModel.DoesNotExist:
+        except UsersModel.DoesNotExist:
             return JsonResponse({'error1': 'Agent not found'}, status=404)
         except KeyError as e:
             return JsonResponse({'error2': f'Missing field: {str(e)}'}, status=400)
@@ -61,6 +60,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from customers.models import CustomerModel
 from django.views.decorators.csrf import csrf_exempt
+
 @login_required
 @csrf_exempt
 def get(request, agent_id):

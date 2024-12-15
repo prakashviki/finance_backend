@@ -1,9 +1,9 @@
 from django.db import models
-from agents.models import AgentModel
+from users.models import UsersModel
 
 class CustomerModel(models.Model):
     customer_id = models.AutoField(primary_key=True)
-    agent_id =  models.ForeignKey(AgentModel, on_delete=models.CASCADE)
+    agent_id =  models.ForeignKey(UsersModel, on_delete=models.CASCADE)
     customer_name = models.CharField(max_length=255)
     customer_mobile_number = models.CharField(max_length=15)
     alternate_mobile_number = models.CharField(max_length=15)
