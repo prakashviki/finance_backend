@@ -25,3 +25,4 @@ class UsersModel(models.Model):
         # Check if the provided password matches the hashed password
         return check_password(raw_password, self.password)
     
+    #I have made a change
