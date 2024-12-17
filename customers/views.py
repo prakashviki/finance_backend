@@ -26,7 +26,7 @@ def add(request):
             address = data.get('address')
 
             # Retrieve the UsersModel object based on the agent_id
-            agent = UsersModel.objects.get(agent_id = agent_id)
+            agent = UsersModel.objects.get(user_id = agent_id)
 
             # Create a new customer instance
             customer = CustomerModel.objects.create(
@@ -61,7 +61,7 @@ from django.http import JsonResponse
 from customers.models import CustomerModel
 from django.views.decorators.csrf import csrf_exempt
 
-@login_required
+
 @csrf_exempt
 def get(request, agent_id):
     try:
@@ -78,7 +78,7 @@ def get(request, agent_id):
             customer_data.append({
                 'customer_id': customer.customer_id,
                 'agent_id': customer.agent_id_id,
-                'agent_name': customer.agent_id.name, 
+                # 'agent_name': customer.agent_id_name, 
                 'customer_name': customer.customer_name,
                 'customer_mobile_number': customer.customer_mobile_number,
                 'alternate_mobile_number': customer.alternate_mobile_number,

@@ -1,7 +1,6 @@
 from django.contrib.auth.hashers import make_password, check_password
 from django.db import models
 
-
 class UsersModel(models.Model):
     
     
