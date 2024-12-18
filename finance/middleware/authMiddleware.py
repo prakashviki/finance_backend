@@ -11,6 +11,9 @@ class AccessTokenValidationMiddleware:
         excluded_paths = ['/users/login/', '/users/signup/']
         if request.path in excluded_paths:
             return self.get_response(request)
+        if request.path.startswith('/admin/'):
+            return self.get_response(request)
+
 
         # Retrieve the Authorization header
         auth_header = request.headers.get('Authorization')

@@ -134,6 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8081',  # Your frontend origin
     'http://localhost:8080',  # Your frontend origin
+    'http://192.168.1.15:8000'
 ]
 
 # CORS_ALLOW_ALL_ORIGINS = True
