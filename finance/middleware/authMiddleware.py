@@ -8,7 +8,7 @@ class AccessTokenValidationMiddleware:
 
     def __call__(self, request):
         # Define endpoints to exclude from token validation
-        excluded_paths = ['users/login/', 'signup/']
+        excluded_paths = ['/users/login/', '/users/signup/']
         if request.path in excluded_paths:
             return self.get_response(request)
 
