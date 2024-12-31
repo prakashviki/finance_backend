@@ -4,7 +4,7 @@ from django.contrib import admin
 from .models import LoanModel
 
 class LoanModelAdmin(admin.ModelAdmin):
-    list_display = ('loan_id', 'customer', 'loan_amount', 'roi', 'emi_amount', 
+    list_display = ('loan_id', 'customer', 'loan_amount',  'repayment_amount', 
                     'repayment_frequency', 'number_of_installments', 
                     'lending_date')
     search_fields = ('customer__customer_name', 'loan_amount')

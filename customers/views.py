@@ -6,31 +6,41 @@ from datetime import datetime
 import json
 from django.http import JsonResponse
 from users.models import UsersModel 
+from django.core.exceptions import ObjectDoesNotExist
+import traceback
 
-
+from django.db import connection
 @csrf_exempt
 def add(request):
     if request.method == 'POST':
         try:
             # Parse JSON data
+            
             data = json.loads(request.body)
             
-            # Retrieve the required fields from the JSON data
-            agent_id = data.get('agent_id')
+            user_id = int(data.get('user_id'))
+            
+           
             customer_name = data.get('customer_name')
+           
             customer_mobile_number = data.get('customer_mobile_number')
             alternate_mobile_number = data.get('alternate_mobile_number')
             date_of_birth = data.get('date_of_birth')
             aadhar_number = data.get('aadhar_number')
             pan_number = data.get('pan_number')
             address = data.get('address')
+            
+            try:
+                
+                user = UsersModel.objects.get(user_id = user_id)
+                print(user)
 
-            # Retrieve the UsersModel object based on the agent_id
-            agent = UsersModel.objects.get(user_id = agent_id)
-
+            except e as exception:
+                print("occured")
+                return JsonResponse({'error': 'User not found'}, status=404)
             # Create a new customer instance
             customer = CustomerModel.objects.create(
-                agent_id=agent,
+                user_id=user,
                 customer_name=customer_name,
                 customer_mobile_number=customer_mobile_number,
                 alternate_mobile_number=alternate_mobile_number,
@@ -39,7 +49,7 @@ def add(request):
                 pan_number=pan_number,
                 address=address
             )
-
+            print("Test3")
             # Save the customer instance to the database
             customer.save()
 
@@ -51,6 +61,7 @@ def add(request):
         except KeyError as e:
             return JsonResponse({'error2': f'Missing field: {str(e)}'}, status=400)
         except Exception as e:
+            traceback.print_exc()
             return JsonResponse({'error3': str(e)}, status=500)
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)

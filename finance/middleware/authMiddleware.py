@@ -35,4 +35,5 @@ class AccessTokenValidationMiddleware:
             return JsonResponse({'error': 'Invalid token'}, status=401)
 
         # Proceed to the next middleware or view if token is valid
+        print("Token is valid")
         return self.get_response(request)

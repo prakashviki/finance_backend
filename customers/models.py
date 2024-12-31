@@ -3,16 +3,16 @@ from users.models import UsersModel
 
 class CustomerModel(models.Model):
     customer_id = models.AutoField(primary_key=True)
-    agent_id =  models.ForeignKey(UsersModel, on_delete=models.CASCADE)
+    user_id =  models.ForeignKey(UsersModel, on_delete=models.CASCADE)
     customer_name = models.CharField(max_length=255)
     customer_mobile_number = models.CharField(max_length=15)
     alternate_mobile_number = models.CharField(max_length=15)
     date_of_birth = models.DateField()
-    aadhar_number = models.CharField(max_length=12, unique=True)
+    aadhar_number = models.CharField(max_length=15, unique=True)
     pan_number = models.CharField(max_length=10, unique=True)
+    address = models.TextField()
 
     #  Photo fields for the customer and their Aadhar image
     # photo = models.ImageField(upload_to='customer_photos/', blank=True, null=True)
     # aadhar_image = models.ImageField(upload_to='aadhar_images/', blank=True, null=True)
-    address = models.TextField()
 
