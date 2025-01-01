@@ -36,7 +36,6 @@ def add(request):
                 print(user)
 
             except e as exception:
-                print("occured")
                 return JsonResponse({'error': 'User not found'}, status=404)
             # Create a new customer instance
             customer = CustomerModel.objects.create(
