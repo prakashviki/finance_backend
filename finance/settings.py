@@ -97,6 +97,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'finance.wsgi.application'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
