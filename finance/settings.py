@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-2ddo6#u%^rppwi0(4f489ze404wkvw8q70fj0qg)#j!(66gi^^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', '192.168.85.106']
 
 
 
@@ -134,6 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8081',  # Your frontend origin
     'http://localhost:8080',  # Your frontend origin
+    'http://192.168.1.15:8000'
 ]
 
 # CORS_ALLOW_ALL_ORIGINS = True
@@ -151,6 +152,8 @@ USE_I18N = True
 USE_TZ = True
 
 LOGIN_URL = '/users/login/'  # Adjust this to match your actual login URL
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # Static files (CSS, JavaScript, Images)
@@ -170,3 +173,12 @@ from rest_framework_simplejwt.settings import api_settings
 
 api_settings.USER_ID_FIELD = 'user_id'
 api_settings.USER_ID_CLAIM = 'user_id'
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Access token expires in 30 minutes
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),     # Refresh token expires in 7 days
+    
+}
+

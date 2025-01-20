@@ -8,9 +8,12 @@ class AccessTokenValidationMiddleware:
 
     def __call__(self, request):
         # Define endpoints to exclude from token validation
-        excluded_paths = ['users/login/', 'signup/']
+        excluded_paths = ['/users/login/', '/users/signup/']
         if request.path in excluded_paths:
             return self.get_response(request)
+        if request.path.startswith('/admin/'):
+            return self.get_response(request)
+
 
         # Retrieve the Authorization header
         auth_header = request.headers.get('Authorization')
@@ -32,4 +35,5 @@ class AccessTokenValidationMiddleware:
             return JsonResponse({'error': 'Invalid token'}, status=401)
 
         # Proceed to the next middleware or view if token is valid
+        print("Token is valid")
         return self.get_response(request)
