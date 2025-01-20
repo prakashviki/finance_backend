@@ -88,8 +88,6 @@ def login(request):
             access_token = str(refresh.access_token)        
             # Return success response with user ID
             return JsonResponse({
-                    'user_id':user.user_id,
-                    'admin_id':user.admin_id,
                     'message': 'Login successful',
                     'refresh': str(refresh),
                     'access': access_token,
