@@ -27,9 +27,7 @@ SECRET_KEY = 'django-insecure-2ddo6#u%^rppwi0(4f489ze404wkvw8q70fj0qg)#j!(66gi^^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', '192.168.85.106', 'finance-2024-3018b39f3abf.herokuapp.com']
-
-
+ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', '192.168.85.106', 'finance-2024-3018b39f3abf.herokuapp.com','192.168.1.107']
 
 
 # Application definition
@@ -135,7 +133,8 @@ AUTH_PASSWORD_VALIDATORS = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8081',  # Your frontend origin
     'http://localhost:8080',  # Your frontend origin
-    'http://192.168.1.15:8000'
+    'http://192.168.1.15:8000',
+    'http://192.168.1.101'
 ]
 
 # CORS_ALLOW_ALL_ORIGINS = True
