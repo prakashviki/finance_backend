@@ -1,8 +1,9 @@
 from django.db import models
 from users.models import UsersModel
+import uuid
 
 class CustomerModel(models.Model):
-    customer_id = models.AutoField(primary_key=True)
+    customer_id = customer_id = models.AutoField(primary_key=True)
     user_id =  models.ForeignKey(UsersModel, on_delete=models.CASCADE)
     customer_name = models.CharField(max_length=255)
     customer_mobile_number = models.CharField(max_length=15)

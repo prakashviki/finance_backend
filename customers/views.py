@@ -76,6 +76,7 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def get(request, agent_id):
     try:
+        
         # Filter customers based on agent_id
         customers = CustomerModel.objects.filter(user_id=agent_id)
         # loans = 
@@ -87,7 +88,7 @@ def get(request, agent_id):
         customer_data = []
         for customer in customers:
             customer_data.append({
-                # 'customer_id': customer.customer_id,
+                'customer_id': customer.customer_id,
                 # 'agent_id': customer.user_id.user_id,
                 # 'agent_name': customer.agent_id_name, 
                 'customer_name': customer.customer_name,
@@ -111,7 +112,7 @@ def get(request, agent_id):
 from loans.models import LoanModel
 from repayments.models import RepaymentModel
 
-def is_pending_loan(customer_id):
+def is_pending_loan( customer_id):
     
     loans = LoanModel.objects.filter(customer_id=customer_id)
     if loans:
@@ -128,3 +129,48 @@ def is_pending_loan(customer_id):
         return False
 
 
+@csrf_exempt
+def get_customer_info(request, customer_id):
+    try:
+        # Fetch customer and related loans in one query
+        customer = CustomerModel.objects.prefetch_related('loanmodel_set').get(customer_id=customer_id)
+
+        loan_data = [
+            {
+                'loan_id': loan.loan_id,
+                'loan_amount': loan.loan_amount,
+                'pending_loan' : is_selected_loan_pending(loan.loan_id),
+
+                
+            }
+            for loan in customer.loanmodel_set.all()
+        ]
+
+        # Prepare customer data
+        customer_data = {
+            'customer_id': customer.customer_id,
+            'customer_name': customer.customer_name,
+            'customer_mobile_number': customer.customer_mobile_number,
+            'alternate_mobile_number': customer.alternate_mobile_number,
+            
+            'aadhar_number': customer.aadhar_number,
+            'pan_number': customer.pan_number,
+            'address': customer.address,
+            'loans': loan_data,  # Include loan details in the response
+        }
+
+        return JsonResponse(customer_data, safe=False)
+
+    except CustomerModel.DoesNotExist:
+        return JsonResponse({'error': 'Customer not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+    
+def is_selected_loan_pending(loan_id):
+    loan = LoanModel.objects.get(loan_id=loan_id)
+    repayments = RepaymentModel.objects.filter(loan_id=loan_id)
+    count = repayments.count()
+    if count < loan.number_of_installments:
+        return True
+    else:
+        return False

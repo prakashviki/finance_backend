@@ -134,7 +134,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:8081',  # Your frontend origin
     'http://localhost:8080',  # Your frontend origin
     'http://192.168.1.15:8000',
-    'http://192.168.1.150'
+    'http://192.168.1.150   '
 ]
 
 # CORS_ALLOW_ALL_ORIGINS = True
@@ -177,7 +177,7 @@ api_settings.USER_ID_CLAIM = 'user_id'
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Access token expires in 30 minutes
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # Access token expires in 30 minutes
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),     # Refresh token expires in 7 days
     
 }

@@ -12,19 +12,19 @@ def add(request):
             data = json.loads(request.body)
 
             # Extract data from the JSON
-            customer_id = data.get('customer_id')
+            # customer_id = data.get('customer_id')
             loan_id = data.get('loan_id')
             repayment_amount = data.get('repayment_amount')
             payment_date = data.get('payment_date')
             comments = data.get('comments', '')
 
             # Get the customer and loan objects
-            customer = get_object_or_404(CustomerModel, pk=customer_id)
+            # customer = get_object_or_404(CustomerModel, pk=customer_id)
             loan = get_object_or_404(LoanModel, pk=loan_id)
 
             # Create a new repayment record
             repayment = RepaymentModel.objects.create(
-                customer_id=customer,
+                # customer_id=customer,
                 loan_id=loan,
                 repayment_amount=repayment_amount,
                 payment_date=payment_date,

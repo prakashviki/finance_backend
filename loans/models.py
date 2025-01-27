@@ -9,5 +9,5 @@ class LoanModel(models.Model):
     repayment_frequency = models.CharField(max_length=20)  # e.g., monthly, quarterly
     
     number_of_installments = models.IntegerField()  # Number of installments for the loan
-    lending_date = models.DateTimeField()
+    lending_date = models.DateField()
 
