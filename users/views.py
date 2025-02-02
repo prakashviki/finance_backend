@@ -11,6 +11,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.serializers import serialize
 import random
 from django.utils import timezone
+from datetime import timedelta
 
 
 
@@ -76,24 +77,23 @@ def login(request):
             user = UsersModel.objects.get(email=email)
         except UsersModel.DoesNotExist:
             return JsonResponse({'error': 'Invalid email or password'}, status=401)
+       
 
         # Check the user's password
         if user.check_password(password):
+            # Generate JWT tokens
             refresh = RefreshToken.for_user(user)
-            user_data = json.loads(serialize('json', [user]))[0]['fields']
-            if 'password' in user_data:
-                del user_data['password']
-            refresh.payload['user'] = user_data 
-
-            access_token = str(refresh.access_token)        
+            access_token = refresh.access_token  # No need to modify payload manually
+            access_token.set_exp(lifetime=timedelta(days=1))  
+            print(access_token)
             # Return success response with user ID
             return JsonResponse({
-                    'user_id':user.user_id,
-                    'admin_id':user.admin_id,
-                    'message': 'Login successful',
-                    'refresh': str(refresh),
-                    'access': access_token,
-                }, status=200)
+                'user_id': user.user_id,
+                'admin_id': user.admin_id,
+                'message': 'Login successful',
+                'refresh': str(refresh),
+                'access': str(access_token),
+            }, status=200)
             # return JsonResponse({'message': 'Login successful', 'user_id': user.user_id}, status=200)
         else:
             # Invalid credentials
